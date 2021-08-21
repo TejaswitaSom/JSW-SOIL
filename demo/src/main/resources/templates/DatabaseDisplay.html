@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="../static/images/300px-JSW_Group_logo.svg.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Database</title>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+		
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.25/af-2.3.7/b-1.7.1/b-colvis-1.7.1/b-html5-1.7.1/b-print-1.7.1/date-1.1.0/fh-3.1.9/r-2.2.9/rr-1.2.8/sc-2.0.4/sp-1.3.0/sl-1.3.3/datatables.min.css"/>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.25/af-2.3.7/b-1.7.1/b-colvis-1.7.1/b-html5-1.7.1/b-print-1.7.1/date-1.1.0/fh-3.1.9/r-2.2.9/rr-1.2.8/sc-2.0.4/sp-1.3.0/sl-1.3.3/datatables.min.js"></script>
+     
+      <!-- For datepicker -->
+    <script src="https://unpkg.com/gijgo@1.9.13/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    
+    <!-- CSS Files -->
+	<link href="../static/Creative-Tim-MaterialKit/css/style.css" rel="stylesheet" />
+	
+    <script type="text/javascript">
+
+	    var from = "", to = "", month = "", day = "". year = "", monthy = "", dayy = "", yeary = "", x = "", y = "";
+	    var table1, table2, table3;
+	    
+	    function DeleteRecord1(ID) {
+	        id = ID;
+	        $("#DeleteConfirmation1").modal('show');
+	    }
+	    function DeleteRecord2(ID) {
+	        id = ID;
+	        $("#DeleteConfirmation2").modal('show');
+	    }
+	    function ConfirmDelete1() {
+	        $.ajax({
+	            type: "POST",
+	            url:"http://localhost:8080/DatabaseDisplay.html/delete/dailyData/" + id,
+	            success: function() {
+	                $("#DeleteConfirmation1").modal("hide");
+	                table1.row("#rowA"+id).remove().draw();
+	            }
+	        });
+	    };   
+	    function ConfirmDelete2() {
+	        $.ajax({
+	            type: "POST",
+	            url:"http://localhost:8080/DatabaseDisplay.html/delete/monthlyPlan/" + id,
+	            success: function() {
+	                $("#DeleteConfirmation2").modal("hide");
+	                table2.row("#rowB"+id).remove().draw();
+	            }
+	        });
+	    };  
+    
+    
+        $(document).ready(function() {
+        	table1 = $('#data').DataTable({
+	    		responsive: true,
+	    		deferRender:    true,
+	    	    scrollY:  400,
+    			"bDestroy": true,
+    			dom: 'Bfrtip',
+    	        buttons: [
+    	            'copyHtml5',
+    	            'excelHtml5',
+    	            'csvHtml5',
+    	            'pdfHtml5'
+    	        ],
+    			"ajax" : {
+            		"type": 'GET',
+                    //"url": 'http://localhost:8080/DatabaseDisplay.html/dailydata',
+                    "url": 'DatabaseDisplay.html/dailydata',
+                    "dataSrc" : function(json){
+                    	var result = new Array();
+                    	for(var i=0; i<json.length; i++){
+                    		result.push({
+                    			"DT_RowId" : "rowA" + json[i].id,
+                    			'mode' : json[i].Mode,
+                    			'brand' : json[i].BrandName,
+                    			'fe' : json[i].Iron,
+                    			'al' : json[i].Alumina,
+                    			'si' : json[i].Silica,
+                    			'quant' : json[i].Quantity,
+                    			'entryDate' : json[i].EntryDate,
+                    			'dest' : json[i].Destination,
+                    			'del' : '<a href="#" class="btn" onclick="DeleteRecord1(' + json[i].id + ')" data-toggle="modal"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>'
+                    		})
+                    	}
+                    	return result;
+                    	
+                    }
+            	},
+            	"columns"    : [
+            		{'data': 'entryDate'},
+            		{'data': 'dest'},
+            	    {'data': 'mode'},
+            	    {'data': 'brand'},
+            	    {'data': 'fe'},
+            	    {'data': 'al'},
+            	    {'data': 'si'},
+            	    {'data': 'quant'},
+            	    {'data': 'del'},
+            	  ]
+            }).columns.adjust()
+	        .responsive.recalc();
+        	
+        	table2 = $('#monthlyPlanner').DataTable({
+	    		responsive: true,
+	    		deferRender:    true,
+	    	    scrollY:  400,
+    			"bDestroy": true,
+    			dom: 'Bfrtip',
+    	        buttons: [
+    	            'copyHtml5',
+    	            'excelHtml5',
+    	            'csvHtml5',
+    	            'pdfHtml5'
+    	        ],
+    			"ajax" : {
+            		"type": 'GET',
+                    "url": 'DatabaseDisplay.html/monthlyTotalPlans',
+                    "dataSrc" : function(json){
+                    	//alert(json.length);
+                    	//console.log(json);
+                    	var result = new Array();
+                    	for(var i=0; i<json.length; i++){
+                    		result.push({
+                    			"DT_RowId" : "rowB" + json[i].id,
+                    			'month' : json[i].month,
+                    			'year' : json[i].year,
+                    			'fe' : json[i].iron,
+                    			'al' : json[i].alumina,
+                    			'si' : json[i].silica,
+                    			'monthlyquant' : json[i].monthlyQuantity,
+                    			'tpd' : json[i].tpd,
+                    			'unit' : json[i].destination,
+                    			'del' : '<a href="#" class="btn" onclick="DeleteRecord2(' + json[i].id + ')" data-toggle="modal"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a>'
+                    		})
+                    	}
+                    	return result;
+                    	
+                    }
+            	},
+            	"columns"    : [
+            		{'data': 'month'},
+            		{'data': 'year'},
+            	    {'data': 'unit'},
+            	    {'data': 'fe'},
+            	    {'data': 'al'},
+            	    {'data': 'si'},
+            	    {'data': 'tpd'},
+            	    {'data': 'monthlyquant'},
+            	    {'data': 'del'},
+            	  ]
+            }).columns.adjust()
+	        .responsive.recalc();
+        	
+        	table3 = $('#dailyPlans').DataTable({
+	    		responsive: true,
+	    		deferRender:    true,
+	    	    scrollY:  400,
+    			"bDestroy": true,
+    			dom: 'Bfrtip',
+    	        buttons: [
+    	            'copyHtml5',
+    	            'excelHtml5',
+    	            'csvHtml5',
+    	            'pdfHtml5'
+    	        ],
+    			"ajax" : {
+            		"type": 'GET',
+                    "url": 'DatabaseDisplay.html/dailyPlans',
+                    "dataSrc" : function(json){
+                    	//alert(json.length);
+                    	//console.log(json);
+                    	var result = new Array();
+                    	for(var i=0; i<json.length; i++){
+                    		result.push({
+                    			"DT_RowId" : "rowC" + json[i].id,
+                    			'mode' : json[i].Mode,
+                    			'brand' : json[i].BrandName,
+                    			'fe' : json[i].Iron,
+                    			'al' : json[i].Alumina,
+                    			'si' : json[i].Silica,
+                    			'quant' : json[i].Quantity,
+                    			'date' : json[i].PlannerDate,
+                    			'dest' : json[i].Location,
+                    		})
+                    	}
+                    	return result;
+                    	
+                    }
+            	},
+            	"columns"    : [
+            		{'data': 'date'},
+            	    {'data': 'dest'},
+            		{'data': 'mode'},
+            	    {'data': 'brand'},
+            	    {'data': 'fe'},
+            	    {'data': 'al'},
+            	    {'data': 'si'},
+            	    {'data': 'quant'},
+            	  ]
+            }).columns.adjust()
+	        .responsive.recalc();
+        	
+        });
+    </script>
+    <style type="text/css">
+		body {
+			background-color:#A8A8A8;
+		}
+		table.table-bordered{
+		    border:1px solid blue;
+		    margin-top:20px;
+		  }
+		table.table-bordered > thead > tr > th{
+		    border:1px solid blue;
+		}
+		table.table-bordered > tbody > tr > td{
+		    border:1px solid blue;
+		}
+		.jumbotron{
+		    background-repeat: no-repeat;
+		    background-size:cover;
+		}
+		.footer {
+		  left: 0;
+		  bottom: 0;
+		  width: 100%;
+		  background-color: purple;
+		  color: white;
+		  text-align: center;
+		}
+		.arrow {
+		  border: solid white;
+		  border-width: 3px 3px 3px 3px;
+		  display: inline-block;
+		  padding: 3px;
+		}
+		.right {
+		  transform: rotate(-45deg);
+		  -webkit-transform: rotate(-45deg);
+		}
+		.loader-wrapper {
+		  width: 100%;
+		  height: 100%;
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  background-color: #242f3f;
+		  display:flex;
+		  justify-content: center;
+		  align-items: center;
+		}
+		.loader {
+		  display: inline-block;
+		  width: 30px;
+		  height: 30px;
+		  position: relative;
+		  border: 4px solid #Fff;
+		  animation: loader 2s infinite ease;
+		}
+		.loader-inner {
+		  vertical-align: top;
+		  display: inline-block;
+		  width: 100%;
+		  background-color: #fff;
+		  animation: loader-inner 2s infinite ease-in;
+		}
+		@keyframes loader {
+		  0% { transform: rotate(0deg);}
+		  25% { transform: rotate(180deg);}
+		  50% { transform: rotate(180deg);}
+		  75% { transform: rotate(360deg);}
+		  100% { transform: rotate(360deg);}
+		}
+		@keyframes loader-inner {
+		  0% { height: 0%;}
+		  25% { height: 0%;}
+		  50% { height: 100%;}
+		  75% { height: 100%;}
+		  100% { height: 0%;}
+		}
+		#data1 {
+		  scroll-margin-top: 100px;
+		}
+		#data2 {
+		  scroll-margin-top: 100px;
+		}
+		#data3 {
+		  scroll-margin-top: 100px;
+		}
+	</style>
+</head>
+
+
+<body >
+
+	<div class="loader-wrapper">
+      <span class="loader"><span class="loader-inner"></span></span>
+    </div>
+    <script>
+        $(window).on("load",function(){
+          $(".loader-wrapper").fadeOut("slow");
+        });
+    </script>
+    
+    
+    
+  <div class="wrapper">
+  	
+	<div class="sidebar" data-color="red" data-background-color="black" data-image="../static/images/industry.jpeg">
+      <!--
+        Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+        Tip 2: you can also add an image using data-image tag
+    -->
+        <br><br><br><br><br>
+      <div class="sidebar-wrapper">
+        <ul class="nav navbar-nav nav-mobile-menu">
+	       <li class="nav-item">
+	     	 <a class="nav-link active" href="index.html">Home <span class="sr-only">(current)</span></a>
+	       </li>
+	       <li class="nav-item">
+	      	 <a class="nav-link" href="sapentry.html">Data Entry</a>
+	       </li>
+	       <li class="nav-item">
+	      	 <a class="nav-link" href="planner.html">Unit Day Planner</a>
+	       </li>
+	       <li class="nav-item">
+	      	 <a class="nav-link" href="DatabaseDisplay.html">View Database</a>
+	       </li>
+	       <li class="nav-item">
+	      	 <a class="nav-link" href="calc.html">Deviation Report</a>
+	       </li>
+	       <li class="nav-item">
+	      	 <a class="nav-link" href="#">More</a>
+	       </li>
+       </ul>
+        <ul class="nav">
+          <li class="nav-item  ">
+            <a class="nav-link" href="#data1">
+              <p style="font-size:20px;font-family:Garamond;">Daily Data<i class="fa fa-angle-double-right"></i></p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="#data2">
+              <p style="font-size:20px;font-family:Garamond;">Monthly Plans<i class="fa fa-angle-double-right"></i></p>
+            </a>
+          </li>
+          <li class="nav-item ">
+            <a class="nav-link" href="#data3">
+              <p style="font-size:20px;font-family:Garamond;">Daily Planner Data<i class="fa fa-angle-double-right"></i></p>
+            </a>
+          </li>
+        </ul>
+        <br><br><br>
+      </div>
+    </div>
+   
+   
+	<div class="main-panel">
+	     <!--Navigation bar-->
+		<div id="nav-placeholder"></div>
+		<script>
+		$(function(){
+		  $("#nav-placeholder").load("nav.html");
+		});
+		</script>
+		<!--end of Navigation bar-->
+		
+	   	<div class="content">
+	      <div class="container-fluid">
+		     <div class="jumbotron jumbotron-fluid" style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.6) 100%), url(https://www.jsw.in/sites/default/files/assets/cache/images//jsw-group-q12021-steel-resultshomepage-d-resize-1440x368-2487796a9d-5d39731b08065121.jpeg);">
+		        <div class="container row">
+		            <div class="col align-self-center"><h1 style="color:white;font-family:Garamond;font-size:70px;text-align:center;">JSW Vijayanagar Database</h1></div>
+		        </div>
+		    </div>
+			
+			
+			<div class="card" id="data1" >
+		        <div class="card-header card-header-primary">
+		          <h4 class="card-title mt-0"> Daily Data</h4>
+		          <p class="card-category"> View all displays...</p>
+		        </div>
+		        <div class="card-body">
+				  	<div class="table-responsive" >
+					    <table id="data" class="table table-striped table-hover">
+					        <thead><tr><th>Date of Entry</th><th>Destination</th><th>Mode</th><th>Brand Name</th><th>Fe Content</th><th>Al Content</th><th>Si Content</th><th>Quantity</th><th>Delete</th></tr></thead>
+					        <tbody id="tableDaily"></tbody>
+					    </table>
+					</div>
+				</div>
+			</div>
+		
+			<div class="card" id="data2">
+		        <div class="card-header card-header-primary">
+		          <h4 class="card-title mt-0"> Monthly Plans</h4>
+		          <p class="card-category"> View all displays...</p>
+		        </div>
+		        <div class="card-body">
+					<div class="\table-responsive" >
+					    <table id="monthlyPlanner" class="table table-striped table-hover "> 
+					        <thead><tr><th>Month</th><th>Year</th><th>Unit</th><th>Fe Content</th><th>Al Content</th>
+					        		   <th>Si Content</th><th>TPD</th><th>Monthly Quantity</th><th>Delete</th></tr></thead>
+					        <tbody id="table"></tbody>
+					    </table>
+					</div>
+				</div>
+			</div>
+		
+			<div class="card" id="data3">
+		        <div class="card-header card-header-primary">
+		          <h4 class="card-title mt-0">Daily-Planner Data</h4>
+		          <p class="card-category"> View all displays...</p>
+		        </div>
+		        <div class="card-body">
+					<div class="table-responsive">
+						<!-- <div id="table-alert"></div> -->
+					    <table id="dailyPlans" class="table table-striped table-hover ">
+					        <thead><tr><th>Planner Date</th><th>Unit</th><th>Mode</th><th>Brand Name</th><th>Fe Content</th><th>Al Content</th>
+					        		   <th>Si Content</th><th>Quantity</th></tr></thead>
+					        <tbody id="table"></tbody>
+					    </table>
+					</div>
+				</div>
+			</div>
+	    </div>
+	 </div>
+	
+	<footer class="footer">
+        <div class="container-fluid">
+          <div class="copyright float-right">
+            &copy;
+            <script>
+              document.write(new Date().getFullYear())
+            </script>, Created by Tanya Borah and Tejaswita Som || SIP'2021
+          </div>
+        </div>
+      </footer>
+     </div>
+    </div>
+
+	<!--PopUp Modal for DeleteConfirmation-->
+	<div class="modal fade" id="DeleteConfirmation1" data-modal-color="" data-backdrop="static">
+		<div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                	<h2 style="font-family:calibri;color:black">Delete Record</h2>
+                	<a href="#" class="close" data-dismiss="modal">&times;</a>
+             	</div>
+             	<div class="modal-body">
+                <h4 style="color:black; font-family:calibri;"><b>Are you sure you want to delete this record?</b></h4>
+           		</div>
+           		<div class="modal-footer">
+           			<a href="#" class="btn" data-dismiss="modal">Cancel</a>
+           			<a href="#" class="btn btn-danger" data-dismiss="modal" onclick="ConfirmDelete1()">Delete</a>
+     			</div>
+     		</div>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="DeleteConfirmation2" data-modal-color="" data-backdrop="static">
+		<div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                	<h2 style="font-family:calibri;color:black">Delete Record</h2>
+                	<a href="#" class="close" data-dismiss="modal">&times;</a>
+             	</div>
+             	<div class="modal-body">
+                <h4 style="color:black; font-family:calibri;"><b>Are you sure you want to delete this record?</b></h4>
+           		</div>
+           		<div class="modal-footer">
+           			<a href="#" class="btn" data-dismiss="modal">Cancel</a>
+           			<a href="#" class="btn btn-danger" data-dismiss="modal" onclick="ConfirmDelete2()">Delete</a>
+     			</div>
+     		</div>
+		</div>
+	</div>
+	
+	<!--   Core JS Files   -->
+  <script src="../static/Creative-Tim-MaterialKit/js/core/jquery.min.js"></script>
+  <script src="../static/Creative-Tim-MaterialKit/js/core/popper.min.js"></script>
+  <script src="../static/Creative-Tim-MaterialKit/js/core/bootstrap-material-design.min.js"></script>
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Plugin for the momentJs  -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/moment.min.js"></script>
+  <!--  Plugin for Sweet Alert -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/sweetalert2.js"></script>
+  <!-- Forms Validations Plugin -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/jquery.validate.min.js"></script>
+  <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/jquery.bootstrap-wizard.js"></script>
+  <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/bootstrap-selectpicker.js"></script>
+  <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/bootstrap-datetimepicker.min.js"></script>
+  <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/jquery.dataTables.min.js"></script>
+  <!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/bootstrap-tagsinput.js"></script>
+  <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/jasny-bootstrap.min.js"></script>
+  <!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/fullcalendar.min.js"></script>
+  <!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/jquery-jvectormap.js"></script>
+  <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/nouislider.min.js"></script>
+  <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+  <!-- Library for adding dinamically elements -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/arrive.min.js"></script>
+  <!--  Google Maps Plugin    -->
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> -->
+  <!--  Notifications Plugin    -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../static/Creative-Tim-MaterialKit/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+<script>
+    $(document).ready(function() {
+      $().ready(function() {
+        $sidebar = $('.sidebar');
+
+        $sidebar_img_container = $sidebar.find('.sidebar-background');
+
+        $full_page = $('.full-page');
+
+        $sidebar_responsive = $('body > .navbar-collapse');
+
+        window_width = $(window).width();
+
+        fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+
+        if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
+          if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
+            $('.fixed-plugin .dropdown').addClass('open');
+          }
+
+        }
+
+        $('.fixed-plugin a').click(function(event) {
+          // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
+          if ($(this).hasClass('switch-trigger')) {
+            if (event.stopPropagation) {
+              event.stopPropagation();
+            } else if (window.event) {
+              window.event.cancelBubble = true;
+            }
+          }
+        });
+
+        $('.fixed-plugin .active-color span').click(function() {
+          $full_page_background = $('.full-page-background');
+
+          $(this).siblings().removeClass('active');
+          $(this).addClass('active');
+
+          var new_color = $(this).data('color');
+
+          if ($sidebar.length != 0) {
+            $sidebar.attr('data-color', new_color);
+          }
+
+          if ($full_page.length != 0) {
+            $full_page.attr('filter-color', new_color);
+          }
+
+          if ($sidebar_responsive.length != 0) {
+            $sidebar_responsive.attr('data-color', new_color);
+          }
+        });
+
+        $('.fixed-plugin .background-color .badge').click(function() {
+          $(this).siblings().removeClass('active');
+          $(this).addClass('active');
+
+          var new_color = $(this).data('background-color');
+
+          if ($sidebar.length != 0) {
+            $sidebar.attr('data-background-color', new_color);
+          }
+        });
+
+        $('.fixed-plugin .img-holder').click(function() {
+          $full_page_background = $('.full-page-background');
+
+          $(this).parent('li').siblings().removeClass('active');
+          $(this).parent('li').addClass('active');
+
+
+          var new_image = $(this).find("img").attr('src');
+
+          if ($sidebar_img_container.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
+            $sidebar_img_container.fadeOut('fast', function() {
+              $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
+              $sidebar_img_container.fadeIn('fast');
+            });
+          }
+
+          if ($full_page_background.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
+            var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
+
+            $full_page_background.fadeOut('fast', function() {
+              $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
+              $full_page_background.fadeIn('fast');
+            });
+          }
+
+          if ($('.switch-sidebar-image input:checked').length == 0) {
+            var new_image = $('.fixed-plugin li.active .img-holder').find("img").attr('src');
+            var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
+
+            $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
+            $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
+          }
+
+          if ($sidebar_responsive.length != 0) {
+            $sidebar_responsive.css('background-image', 'url("' + new_image + '")');
+          }
+        });
+
+        $('.switch-sidebar-image input').change(function() {
+          $full_page_background = $('.full-page-background');
+
+          $input = $(this);
+
+          if ($input.is(':checked')) {
+            if ($sidebar_img_container.length != 0) {
+              $sidebar_img_container.fadeIn('fast');
+              $sidebar.attr('data-image', '#');
+            }
+
+            if ($full_page_background.length != 0) {
+              $full_page_background.fadeIn('fast');
+              $full_page.attr('data-image', '#');
+            }
+
+            background_image = true;
+          } else {
+            if ($sidebar_img_container.length != 0) {
+              $sidebar.removeAttr('data-image');
+              $sidebar_img_container.fadeOut('fast');
+            }
+
+            if ($full_page_background.length != 0) {
+              $full_page.removeAttr('data-image', '#');
+              $full_page_background.fadeOut('fast');
+            }
+
+            background_image = false;
+          }
+        });
+
+        $('.switch-sidebar-mini input').change(function() {
+          $body = $('body');
+
+          $input = $(this);
+
+          if (md.misc.sidebar_mini_active == true) {
+            $('body').removeClass('sidebar-mini');
+            md.misc.sidebar_mini_active = false;
+
+            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+
+          } else {
+
+            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
+
+            setTimeout(function() {
+              $('body').addClass('sidebar-mini');
+
+              md.misc.sidebar_mini_active = true;
+            }, 300);
+          }
+
+          // we simulate the window Resize so the charts will get updated in realtime.
+          var simulateWindowResize = setInterval(function() {
+            window.dispatchEvent(new Event('resize'));
+          }, 180);
+
+          // we stop the simulation of Window Resize after the animations are completed
+          setTimeout(function() {
+            clearInterval(simulateWindowResize);
+          }, 1000);
+
+        });
+      });
+    });
+  </script>
+ <script>
+    $(document).ready(function() {
+      //init DateTimePickers
+      md.initFormExtendedDatetimepickers();
+    });
+  </script>
+  
+  <!-- <script>
+  function offsetAnchor() {
+	  if (location.hash.length !== 0) {
+	    window.scrollTo(window.scrollX, window.scrollY - 100);
+	  }
+	}
+
+	// Captures click events of all <a> elements with href starting with #
+	$(document).on('click', 'a[href^="#"]', function(event) {
+	  // Click events are captured before hashchanges. Timeout
+	  // causes offsetAnchor to be called after the page jump.
+	  window.setTimeout(function() {
+	    offsetAnchor();
+	  }, 0);
+	});
+
+	// Set the offset when entering page with hash present in the url
+	window.setTimeout(offsetAnchor, 0);
+  </script> -->
+  
+</body>
+</html>
+  

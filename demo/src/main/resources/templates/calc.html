@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="../static/images/300px-JSW_Group_logo.svg.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>RMHS Deviation Report</title>
+    
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<!--for navbar + dropdown dependency + delete modal visible and functional but position needs to be here-->
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> 
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+	<!-- CSS Files -->
+	<link href="../static/Creative-Tim-MaterialKit/css/style.css" rel="stylesheet" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	
+	<script type="text/javascript">
+	 	var obp2 = [], sp1 = [], pp1 = [], basemix = [];
+	 
+		window.onload = function () {
+			
+			if(obp2.length>0){
+				var chart1 = new CanvasJS.Chart("OBP2Chart", {
+			      theme: "dark2", 
+			      title:{
+			        text: "Deviation Summary for OBP2 Unit"              
+			      },
+			      animationEnabled:true,
+			      backgroundColor: "transparent",
+			      axisX:{
+			    	  gridThckness: 1,
+			    	  gridColor : "white",
+			    	  gridDashType : "dot"
+			      },
+				  axisY:{
+			    	  title : "Percentage Deviation",
+			    	  gridColor : "white",
+			    	  gridDashType : "dot",
+			    	  tickThickness: 2
+			      },
+			      data: [{ 
+			    	 type: "line",
+			         lineColor: "white",
+			         dataPoints: obp2,
+			         color : "white" }]
+			     });
+			    chart1.render();
+			}
+		    
+			if(sp1.length>0){
+			    var chart2 = new CanvasJS.Chart("SP1Chart", {
+				      theme: "dark2", 
+				      title:{
+				        text: "Deviation Summary for SP1 Unit"              
+				      },
+				      animationEnabled:true,
+				      backgroundColor: "transparent",
+				      axisX:{
+				    	  gridThckness: 1,
+				    	  gridColor : "white",
+				    	  gridDashType : "dot"
+				      },
+					  axisY:{
+				    	  title : "Percentage Deviation",
+				    	  gridColor : "white",
+				    	  gridDashType : "dot",
+				    	  tickThickness: 2
+				      },
+				      data: [{ 
+				    	 type: "line",
+				         lineColor: "white",
+				         dataPoints: sp1,
+				         color : "white" }]
+				     });
+		 
+		    	chart2.render();
+		    }
+			   
+			if(pp1.length>0){
+			    var chart3 = new CanvasJS.Chart("PP1Chart", {
+				      theme: "dark2", 
+				      title:{
+				        text: "Deviation Summary for PP1 Unit"              
+				      },
+				      animationEnabled:true,
+				      backgroundColor: "transparent",
+				      axisX:{
+				    	  gridThckness: 1,
+				    	  gridColor : "white",
+				    	  gridDashType : "dot"
+				      },
+					  axisY:{
+				    	  title : "Percentage Deviation",
+				    	  gridColor : "white",
+				    	  gridDashType : "dot",
+				    	  tickThickness: 2
+				      },
+				      data: [{ 
+				    	 type: "line",
+				         lineColor: "white",
+				         dataPoints: pp1,
+				         color : "white" }]
+				     });
+		    
+		    	chart3.render();
+		    }
+			
+			if(basemix.length>0){
+			    var chart4 = new CanvasJS.Chart("BasemixChart", {
+				      theme: "dark2", 
+				      title:{
+				        text: "Deviation Summary for Basemix Unit"              
+				      },
+				      animationEnabled:true,
+				      backgroundColor: "transparent",
+				      axisX:{
+				    	  gridThckness: 1,
+				    	  gridColor : "white",
+				    	  gridDashType : "dot"
+				      },
+					  axisY:{
+				    	  title : "Percentage Deviation",
+				    	  gridColor : "white",
+				    	  gridDashType : "dot",
+				    	  tickThickness: 2
+				      },
+				      data: [{ 
+				    	 type: "line",
+				         lineColor: "white",
+				         dataPoints: basemix,
+				         color : "white" }]
+				     });
+		    
+		    	chart4.render();
+		    }
+			  
+		  } 
+	
+	</script>
+
+	<style type="text/css">
+		.jumbotron {
+		    background-repeat: no-repeat;
+		    background-size:cover;
+		}
+		.main-panel{
+			width : 100%;
+		}
+		.sidebar{
+			display: none;
+		}
+		@media screen and (max-width: 1023px){
+			.sidebar{
+				display : block;
+			}
+		}
+		.footer {
+		  left: 0;
+		  bottom: 0;
+		  width: 100%;
+		  background-color: purple;
+		  color: white;
+		  text-align: center;
+		}
+		.ct-chart{
+			height: 250px
+		}
+		body {
+		    background: #56ab2f;  /* fallback for old browsers */
+			background: -webkit-linear-gradient(to right, #a8e063, #56ab2f);  /* Chrome 10-25, Safari 5.1-6 */
+			background: linear-gradient(to right, #a8e063, #56ab2f); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+		}
+		.loader-wrapper {
+		  width: 100%;
+		  height: 100%;
+		  position: absolute;
+		  top: 0;
+		  left: 0;
+		  background-color: #242f3f;
+		  display:flex;
+		  justify-content: center;
+		  align-items: center;
+		}
+		.loader {
+		  display: inline-block;
+		  width: 30px;
+		  height: 30px;
+		  position: relative;
+		  border: 4px solid #Fff;
+		  animation: loader 2s infinite ease;
+		}
+		.loader-inner {
+		  vertical-align: top;
+		  display: inline-block;
+		  width: 100%;
+		  background-color: #fff;
+		  animation: loader-inner 2s infinite ease-in;
+		}
+		@keyframes loader {
+		  0% { transform: rotate(0deg);}
+		  25% { transform: rotate(180deg);}
+		  50% { transform: rotate(180deg);}
+		  75% { transform: rotate(360deg);}
+		  100% { transform: rotate(360deg);}
+		}
+		@keyframes loader-inner {
+		  0% { height: 0%;}
+		  25% { height: 0%;}
+		  50% { height: 100%;}
+		  75% { height: 100%;}
+		  100% { height: 0%;}
+		}
+	</style>
+</head>
+    
+    
+    
+    
+<body >
+<!-- style="padding-top : 100px;" -->
+	<div class="loader-wrapper">
+      <span class="loader"><span class="loader-inner"></span></span>
+    </div>
+    <script>
+        $(window).on("load",function(){
+          $(".loader-wrapper").fadeOut("slow");
+        });
+    </script>
+    
+  <div class="wrapper">
+   <div class="sidebar" data-color="red" data-background-color="black" data-image="../static/images/industry.jpeg">
+    <div class="sidebar-wrapper">
+    	<ul class="nav navbar-nav nav-mobile-menu">
+	       <li class="nav-item">
+	     	 <a class="nav-link active" href="index.html">Home <span class="sr-only">(current)</span></a>
+	       </li>
+	       <li class="nav-item">
+	      	 <a class="nav-link" href="sapentry.html">Data Entry</a>
+	       </li>
+	       <li class="nav-item">
+	      	 <a class="nav-link" href="planner.html">Unit Day Planner</a>
+	       </li>
+	       <li class="nav-item">
+	      	 <a class="nav-link" href="DatabaseDisplay.html">View Database</a>
+	       </li>
+	       <li class="nav-item">
+	      	 <a class="nav-link" href="calc.html">Deviation Report</a>
+	       </li>
+	       <li class="nav-item">
+	      	 <a class="nav-link" href="#">More</a>
+	       </li>
+       </ul>
+    </div>
+   </div>
+    <div class="main-panel">
+    
+		<!--Navigation bar-->
+		<div id="nav-placeholder"></div>
+		<script>
+		$(function(){
+		  $("#nav-placeholder").load("nav.html");
+		});
+		</script>
+		<!--end of Navigation bar-->
+	 
+	  <div class="content">
+
+		<div class="jumbotron bg-cover text-white" style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.6) 100%), url(https://images.newindianexpress.com/uploads/user/imagelibrary/2021/6/14/w900X450/homeaboutus-resize-534x432-a7542dd51f-5155ba37da9b500d.jpeg)">
+	        <div class="container row">
+	            <div class="col align-self-center"><h1>Deviation Report</h1></div>
+	        </div>
+	    </div>
+
+		<div class="container">
+		
+		  <div class="row">
+		  
+	        <div class="col-md-6">
+	          <div class="card card-chart">
+	          
+	            <div class="card-header card-header-success">
+	              <div th:if = "${devOBP2}">
+	           	 	<div id="OBP2Chart" class="ct-chart" ></div>
+	           	  </div>
+	              <div th:unless = "${devOBP2}" class="col align-self-center">
+	              	<i class="material-icons " style="height:250px;text-align:center">info_outline</i>
+	           	 </div>
+	            </div>
+	            
+	            <div class="card-body">
+	              <h4 class="card-title"><b>OBP2</b></h4>
+	                <div th:if = "${devOBP2}">
+	                
+	                	<div th:if = "${devOBP2[1]} >=0" >
+	                		<p class="card-category"><b>Quantity: </b><span th:text = "${#numbers.formatDecimal(devOBP2[1], 1, 0)}"></span>&nbsp;<span class="text-success" ><i class="fa fa-long-arrow-up"></i></span> tons increase in today's plan.</p>
+	                	</div>
+	                	<div th:unless = "${devOBP2[1]} >=0 " >
+	                		<p class="card-category"><b>Quantity: </b><span th:text = "-1*${#numbers.formatDecimal(devOBP2[1], 1, 0)}"></span>&nbsp;<span class="text-danger" ><i class="fa fa-long-arrow-down"></i></span> tons decrease in today's plan.</p>
+	                	</div>
+	                	
+	                	<div class="row">
+	                		<div class="col-md-4">
+	                			<div th:if = "${devOBP2[2]} >=0" >
+			                		<p class="card-category"><b>Fe<sub>2</sub>O<sub>3</sub>% :</b> <span th:text = "${#numbers.formatDecimal(devOBP2[2], 1, 2)} "></span>&nbsp;<span class="text-success" ><i class="fa fa-long-arrow-up"></i></span></p>
+			                	</div>
+			                	<div th:unless = "${devOBP2[2]} >=0 " >
+			                		<p class="card-category"><b>Fe<sub>2</sub>O<sub>3</sub>% :</b> <span th:text = "-1*${#numbers.formatDecimal(devOBP2[2], 1, 2)} "></span>&nbsp;<span class="text-danger" ><i class="fa fa-long-arrow-down"></i></span></p>
+			                	</div>
+	                		</div>
+	                		
+	                		<div class="col-md-4">
+	                			<div th:if = "${devOBP2[3]} >=0" >
+			                		<p class="card-category"><b>Al<sub>2</sub>O<sub>3</sub>% :</b> <span th:text = "${#numbers.formatDecimal(devOBP2[3], 1, 2)}"></span>&nbsp;<span class="text-success" ><i class="fa fa-long-arrow-up"></i></span></p>
+			                	</div>
+			                	<div th:unless = "${devOBP2[3]} >=0 " >
+			                		<p class="card-category"><b>Al<sub>2</sub>O<sub>3</sub>% :</b> <span th:text = "-1*${#numbers.formatDecimal(devOBP2[3], 1, 2)}"></span>&nbsp;<span class="text-danger" ><i class="fa fa-long-arrow-down"></i></span></p>
+			                	</div>
+	                		</div>
+	                		
+	                		<div class="col-md-4">
+	                			<div th:if = "${devOBP2[4]} >=0" >
+			                		<p class="card-category"><b>SiO<sub>2</sub>% :</b> <span th:text = "${#numbers.formatDecimal(devOBP2[4], 1, 2)}"></span>&nbsp;<span class="text-success" ><i class="fa fa-long-arrow-up"></i></span></p>
+			                	</div>
+			                	<div th:unless = "${devOBP2[4]} >=0 " >
+			                		<p class="card-category"><b>SiO<sub>2</sub>% :</b> <span th:text = "-1*${#numbers.formatDecimal(devOBP2[4], 1, 2)}"></span>&nbsp;<span class="text-danger" ><i class="fa fa-long-arrow-down"></i></span></p>
+			                	</div>
+	                		</div>
+	                	</div>
+	                	
+				    </div>
+				    <div th:unless = "${devOBP2}">
+				    	<p class="card-category" th:text = "${errorMessage}"></p>
+				    	<br>
+				    </div>
+	            </div>
+	            <div class="card-footer">
+	              <div class="stats" th:if = "${devOBP2}">
+	                <i class="material-icons">access_time</i> updated 
+	                <script th:each="t:${time1}" th:inline="javascript">
+	                	document.write(moment(/*[[${t}]]*/).fromNow())
+	                </script>
+	              </div>
+	              <div class="stats" th:unless = "${devOBP2}">
+	                <i class="material-icons">access_time</i> updated 
+	                <script>document.write(moment(new Date().setHours(0,0,0,0)).fromNow())</script>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	        
+	        <div class="col-md-6">
+	          <div class="card card-chart">
+	          
+	            <div class="card-header card-header-warning">
+	           	  <div th:if = "${devSP1}">
+	           	 	<div class="ct-chart" id="SP1Chart"></div>
+	           	  </div>
+	              <div th:unless = "${devSP1}" class="col align-self-center">
+	              	<i class="material-icons " style="height:250px;text-align:center">info_outline</i>
+	           	  </div>
+	            </div>
+	            
+	            <div class="card-body">
+	              <h4 class="card-title"><b>SP1</b></h4>
+	                <div th:if = "${devSP1}">
+	                
+	                	<div th:if = "${devSP1[1]} >=0" >
+	                		<p class="card-category"><b>Quantity: </b><span th:text = "${#numbers.formatDecimal(devSP1[1], 1, 0)}"></span>&nbsp;<span class="text-success" ><i class="fa fa-long-arrow-up"></i></span> tons increase in today's plan.</p>
+	                	</div>
+	                	<div th:unless = "${devSP1[1]} >=0 " >
+	                		<p class="card-category"><b>Quantity: </b><span th:text = "-1*${#numbers.formatDecimal(devSP1[1], 1, 0)}"></span>&nbsp;<span class="text-danger" ><i class="fa fa-long-arrow-down"></i></span> tons decrease in today's plan.</p>
+	                	</div>
+	                	
+	                	<div class="row">
+	                		<div class="col-md-4">
+	                			<div th:if = "${devSP1[2]} >=0" >
+			                		<p class="card-category"><b>Fe<sub>2</sub>O<sub>3</sub>% :</b> <span th:text = "${#numbers.formatDecimal(devSP1[2], 1, 2)} "></span>&nbsp;<span class="text-success" ><i class="fa fa-long-arrow-up"></i></span></p>
+			                	</div>
+			                	<div th:unless = "${devSP1[2]} >=0 " >
+			                		<p class="card-category"><b>Fe<sub>2</sub>O<sub>3</sub>% :</b> <span th:text = "-1*${#numbers.formatDecimal(devSP1[2], 1, 2)} "></span>&nbsp;<span class="text-danger" ><i class="fa fa-long-arrow-down"></i></span></p>
+			                	</div>
+	                		</div>
+	                		
+	                		<div class="col-md-4">
+	                			<div th:if = "${devSP1[3]} >=0" >
+			                		<p class="card-category"><b>Al<sub>2</sub>O<sub>3</sub>% :</b> <span th:text = "${#numbers.formatDecimal(devSP1[3], 1, 2)}"></span>&nbsp;<span class="text-success" ><i class="fa fa-long-arrow-up"></i></span></p>
+			                	</div>
+			                	<div th:unless = "${devSP1[3]} >=0 " >
+			                		<p class="card-category"><b>Al<sub>2</sub>O<sub>3</sub>% :</b> <span th:text = "-1*${#numbers.formatDecimal(devSP1[3], 1, 2)}"></span>&nbsp;<span class="text-danger" ><i class="fa fa-long-arrow-down"></i></span></p>
+			                	</div>
+	                		</div>
+	                		
+	                		<div class="col-md-4">
+	                			<div th:if = "${devSP1[4]} >=0" >
+			                		<p class="card-category"><b>SiO<sub>2</sub>% :</b> <span th:text = "${#numbers.formatDecimal(devSP1[4], 1, 2)}"></span>&nbsp;<span class="text-success" ><i class="fa fa-long-arrow-up"></i></span></p>
+			                	</div>
+			                	<div th:unless = "${devSP1[4]} >=0 " >
+			                		<p class="card-category"><b>SiO<sub>2</sub>% :</b> <span th:text = "-1*${#numbers.formatDecimal(devSP1[4], 1, 2)}"></span>&nbsp;<span class="text-danger" ><i class="fa fa-long-arrow-down"></i></span></p>
+			                	</div>
+	                		</div>
+	                	</div>
+	                	
+				    </div>
+				    <div th:unless = "${devSP1}">
+				    	<p class="card-category" th:text = "${errorMessage}"></p>
+				    	<br>
+				    </div>
+	            </div>
+	            <div class="card-footer">
+	              <div class="stats" th:if = "${devSP1}">
+	                <i class="material-icons">access_time</i> updated 
+	                <script th:each="t:${time2}" th:inline="javascript">
+	                	document.write(moment(/*[[${t}]]*/).fromNow())
+	                </script>
+	              </div>
+	              <div class="stats" th:unless = "${devSP1}">
+	                <i class="material-icons">access_time</i> updated 
+	                <script>document.write(moment(new Date().setHours(0,0,0,0)).fromNow())</script>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	        
+	       </div>
+	       
+	      <div class="row">
+	       
+	        <div class="col-md-6">
+	          <div class="card card-chart">
+	          
+	            <div class="card-header card-header-danger">
+	              <div th:if = "${devPP1}">
+	           	 	<div class="ct-chart" id="PP1Chart"></div>
+	           	  </div>
+	              <div th:unless = "${devPP1}" class="col align-self-center">
+	              	<i class="material-icons " style="height:250px;text-align:center">info_outline</i>
+	           	  </div>
+	            </div>
+	            
+	            <div class="card-body">
+	              <h4 class="card-title"><b>PP1</b></h4>
+	                <div th:if = "${devPP1}">
+	                
+	                	<div th:if = "${devPP1[1]} >=0" >
+	                		<p class="card-category"><b>Quantity: </b><span th:text = "${#numbers.formatDecimal(devPP1[1], 1, 0)}"></span>&nbsp;<span class="text-success" ><i class="fa fa-long-arrow-up"></i></span> tons increase in today's plan.</p>
+	                	</div>
+	                	<div th:unless = "${devPP1[1]} >=0 " >
+	                		<p class="card-category"><b>Quantity: </b><span th:text = "-1*${#numbers.formatDecimal(devPP1[1], 1, 0)}"></span>&nbsp;<span class="text-danger" ><i class="fa fa-long-arrow-down"></i></span> tons decrease in today's plan.</p>
+	                	</div>
+	                	
+	                	<div class="row">
+	                		<div class="col-md-4">
+	                			<div th:if = "${devPP1[2]} >=0" >
+			                		<p class="card-category"><b>Fe<sub>2</sub>O<sub>3</sub>% :</b> <span th:text = "${#numbers.formatDecimal(devPP1[2], 1, 2)} "></span>&nbsp;<span class="text-success" ><i class="fa fa-long-arrow-up"></i></span></p>
+			                	</div>
+			                	<div th:unless = "${devPP1[2]} >=0 " >
+			                		<p class="card-category"><b>Fe<sub>2</sub>O<sub>3</sub>% :</b> <span th:text = "-1*${#numbers.formatDecimal(devPP1[2], 1, 2)} "></span>&nbsp;<span class="text-danger" ><i class="fa fa-long-arrow-down"></i></span></p>
+			                	</div>
+	                		</div>
+	                		
+	                		<div class="col-md-4">
+	                			<div th:if = "${devPP1[3]} >=0" >
+			                		<p class="card-category"><b>Al<sub>2</sub>O<sub>3</sub>% :</b> <span th:text = "${#numbers.formatDecimal(devPP1[3], 1, 2)}"></span>&nbsp;<span class="text-success" ><i class="fa fa-long-arrow-up"></i></span></p>
+			                	</div>
+			                	<div th:unless = "${devPP1[3]} >=0 " >
+			                		<p class="card-category"><b>Al<sub>2</sub>O<sub>3</sub>% :</b> <span th:text = "-1*${#numbers.formatDecimal(devPP1[3], 1, 2)}"></span>&nbsp;<span class="text-danger" ><i class="fa fa-long-arrow-down"></i></span></p>
+			                	</div>
+	                		</div>
+	                		
+	                		<div class="col-md-4">
+	                			<div th:if = "${devPP1[4]} >=0" >
+			                		<p class="card-category"><b>SiO<sub>2</sub>% :</b> <span th:text = "${#numbers.formatDecimal(devPP1[4], 1, 2)}"></span>&nbsp;<span class="text-success" ><i class="fa fa-long-arrow-up"></i></span></p>
+			                	</div>
+			                	<div th:unless = "${devPP1[4]} >=0 " >
+			                		<p class="card-category"><b>SiO<sub>2</sub>% :</b> <span th:text = "-1*${#numbers.formatDecimal(devPP1[4], 1, 2)}"></span>&nbsp;<span class="text-danger" ><i class="fa fa-long-arrow-down"></i></span></p>
+			                	</div>
+	                		</div>
+	                	</div>
+	                	
+				    </div>
+				    <div th:unless = "${devPP1}">
+				    	<p class="card-category" th:text = "${errorMessage}"></p>
+				    	<br>
+				    </div>
+	            </div>
+	            <div class="card-footer">
+	              <div class="stats" th:if = "${devPP1}">
+	                <i class="material-icons">access_time</i> updated 
+	                <script th:each="t:${time3}" th:inline="javascript">
+	                	document.write(moment(/*[[${t}]]*/).fromNow())
+	                </script>
+	              </div>
+	              <div class="stats" th:unless = "${devPP1}">
+	                <i class="material-icons">access_time</i> updated 
+	                <script>document.write(moment(new Date().setHours(0,0,0,0)).fromNow())</script>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	      
+	        <div class="col-md-6">
+	          <div class="card card-chart">
+	          
+	            <div class="card-header card-header-info">
+	              <div th:if = "${devBasemix}">
+	           	 	<div class="ct-chart" id="BasemixChart"></div>
+	           	  </div>
+	              <div th:unless = "${devBasemix}" class="col align-self-center">
+	              	<i class="material-icons " style="height:250px;text-align:center">info_outline</i>
+	           	  </div>
+	            </div>
+	            
+	            <div class="card-body">
+	              <h4 class="card-title"><b>Basemix</b></h4>
+	                <div th:if = "${devBasemix}">
+	                
+	                	<div th:if = "${devBasemix[1]} >=0" >
+	                		<p class="card-category"><b>Quantity: </b><span th:text = "${#numbers.formatDecimal(devBasemix[1], 1, 0)}"></span>&nbsp;<span class="text-success" ><i class="fa fa-long-arrow-up"></i></span> tons increase in today's plan.</p>
+	                	</div>
+	                	<div th:unless = "${devBasemix[1]} >=0 " >
+	                		<p class="card-category"><b>Quantity: </b><span th:text = "-1*${#numbers.formatDecimal(devBasemix[1], 1, 0)}"></span>&nbsp;<span class="text-danger" ><i class="fa fa-long-arrow-down"></i></span> tons decrease in today's plan.</p>
+	                	</div>
+	                	
+	                	<div class="row">
+	                		<div class="col-md-4">
+	                			<div th:if = "${devBasemix[2]} >=0" >
+			                		<p class="card-category"><b>Fe<sub>2</sub>O<sub>3</sub>% :</b> <span th:text = "${#numbers.formatDecimal(devBasemix[2], 1, 2)} "></span>&nbsp;<span class="text-success" ><i class="fa fa-long-arrow-up"></i></span></p>
+			                	</div>
+			                	<div th:unless = "${devBasemix[2]} >=0 " >
+			                		<p class="card-category"><b>Fe<sub>2</sub>O<sub>3</sub>% :</b> <span th:text = "-1*${#numbers.formatDecimal(devBasemix[2], 1, 2)} "></span>&nbsp;<span class="text-danger" ><i class="fa fa-long-arrow-down"></i></span></p>
+			                	</div>
+	                		</div>
+	                		
+	                		<div class="col-md-4">
+	                			<div th:if = "${devBasemix[3]} >=0" >
+			                		<p class="card-category"><b>Al<sub>2</sub>O<sub>3</sub>% :</b> <span th:text = "${#numbers.formatDecimal(devBasemix[3], 1, 2)}"></span>&nbsp;<span class="text-success" ><i class="fa fa-long-arrow-up"></i></span></p>
+			                	</div>
+			                	<div th:unless = "${devBasemix[3]} >=0 " >
+			                		<p class="card-category"><b>Al<sub>2</sub>O<sub>3</sub>% :</b> <span th:text = "-1*${#numbers.formatDecimal(devBasemix[3], 1, 2)}"></span>&nbsp;<span class="text-danger" ><i class="fa fa-long-arrow-down"></i></span></p>
+			                	</div>
+	                		</div>
+	                		
+	                		<div class="col-md-4">
+	                			<div th:if = "${devBasemix[4]} >=0" >
+			                		<p class="card-category"><b>SiO<sub>2</sub>% :</b> <span th:text = "${#numbers.formatDecimal(devBasemix[4], 1, 2)}"></span>&nbsp;<span class="text-success" ><i class="fa fa-long-arrow-up"></i></span></p>
+			                	</div>
+			                	<div th:unless = "${devBasemix[4]} >=0 " >
+			                		<p class="card-category"><b>SiO<sub>2</sub>% :</b> <span th:text = "-1*${#numbers.formatDecimal(devBasemix[4], 1, 2)}"></span>&nbsp;<span class="text-danger" ><i class="fa fa-long-arrow-down"></i></span></p>
+			                	</div>
+	                		</div>
+	                	</div>
+	                	
+				    </div>
+				    <div th:unless = "${devBasemix}">
+				    	<p class="card-category" th:text = "${errorMessage}"></p>
+				    	<br>
+				    </div>
+	            </div>
+	            <div class="card-footer">
+	              <div class="stats" th:if = "${devBasemix}">
+	                <i class="material-icons">access_time</i> updated 
+	                <script th:each="t:${time4}" th:inline="javascript">
+	                	document.write(moment(/*[[${t}]]*/).fromNow())
+	                </script>
+	              </div>
+	              <div class="stats" th:unless = "${devBasemix}">
+	                <i class="material-icons">access_time</i> updated 
+	                <script>document.write(moment(new Date().setHours(0,0,0,0)).fromNow())</script>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	        
+	      </div>
+	     </div>
+	    </div>
+	   <!--  <div class="main-panel"> -->
+		 <footer class="footer">
+	        <div class="container-fluid">
+	          <div class="copyright float-right">
+	            &copy;
+	            <script>
+	              document.write(new Date().getFullYear())
+	            </script>, Created by Tejaswita Som and Tanya Borah || SIP'2021
+	          </div>
+	        </div>
+	      </footer>
+   		</div>
+	  </div>
+	    
+	<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    
+    <script th:if = "${OBP2chart}" th:each="entry:${OBP2chart}" th:inline="javascript">
+        var xValue= /*[[${entry.key}]]*/'x';
+        var yValue= parseFloat(/*[[${entry.value}]]*/);
+        obp2.push({label:xValue,y:yValue});
+        //alert(xValue + yValue);
+    </script>
+    <script th:if = "${SP1chart}" th:each="entry:${SP1chart}" th:inline="javascript">
+        var xValue=/*[[${entry.key}]]*/'x';
+        var yValue= parseFloat(/*[[${entry.value}]]*/);
+        sp1.push({label:xValue,y:yValue});
+    </script>
+    <script th:if = "${PP1chart}" th:each="entry:${PP1chart}" th:inline="javascript">
+        var xValue=/*[[${entry.key}]]*/'x';
+        var yValue= parseFloat(/*[[${entry.value}]]*/);
+        pp1.push({label:xValue,y:yValue});
+    </script>
+    <script th:if = "${Basemixchart}" th:each="entry:${Basemixchart}" th:inline="javascript">
+        var xValue=/*[[${entry.key}]]*/'x';
+        var yValue= parseFloat(/*[[${entry.value}]]*/);
+        basemix.push({label:xValue,y:yValue});
+    </script>
+   
+    <!--   Core JS Files   -->
+  <script src="../static/Creative-Tim-MaterialKit/js/core/jquery.min.js"></script>
+  <script src="../static/Creative-Tim-MaterialKit/js/core/popper.min.js"></script>
+  <script src="../static/Creative-Tim-MaterialKit/js/core/bootstrap-material-design.min.js"></script>
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+  <!-- Plugin for the momentJs  -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/moment.min.js"></script>
+  <!--  Plugin for Sweet Alert -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/sweetalert2.js"></script>
+  <!-- Forms Validations Plugin -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/jquery.validate.min.js"></script>
+  <!-- Plugin for the Wizard, full documentation here: https://github.com/VinceG/twitter-bootstrap-wizard -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/jquery.bootstrap-wizard.js"></script>
+  <!--	Plugin for Select, full documentation here: http://silviomoreto.github.io/bootstrap-select -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/bootstrap-selectpicker.js"></script>
+  <!--  Plugin for the DateTimePicker, full documentation here: https://eonasdan.github.io/bootstrap-datetimepicker/ -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/bootstrap-datetimepicker.min.js"></script>
+  <!--  DataTables.net Plugin, full documentation here: https://datatables.net/  -->
+  <!-- <script src="../static/Creative-Tim-MaterialKit/js/plugins/jquery.dataTables.min.js"></script> -->
+  <!--	Plugin for Tags, full documentation here: https://github.com/bootstrap-tagsinput/bootstrap-tagsinputs  -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/bootstrap-tagsinput.js"></script>
+  <!-- Plugin for Fileupload, full documentation here: http://www.jasny.net/bootstrap/javascript/#fileinput -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/jasny-bootstrap.min.js"></script>
+  <!--  Full Calendar Plugin, full documentation here: https://github.com/fullcalendar/fullcalendar    -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/fullcalendar.min.js"></script>
+  <!-- Vector Map plugin, full documentation here: http://jvectormap.com/documentation/ -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/jquery-jvectormap.js"></script>
+  <!--  Plugin for the Sliders, full documentation here: http://refreshless.com/nouislider/ -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/nouislider.min.js"></script>
+  <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support SweetAlert -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+  <!-- Library for adding dinamically elements -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/arrive.min.js"></script>
+  <!--  Google Maps Plugin    -->
+  <!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script> -->
+  <!--  Notifications Plugin    -->
+  <script src="../static/Creative-Tim-MaterialKit/js/plugins/bootstrap-notify.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../static/Creative-Tim-MaterialKit/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+<script>
+    $(document).ready(function() {
+      $().ready(function() {
+        $sidebar = $('.sidebar');
+
+        $sidebar_img_container = $sidebar.find('.sidebar-background');
+
+        $full_page = $('.full-page');
+
+        $sidebar_responsive = $('body > .navbar-collapse');
+
+        window_width = $(window).width();
+
+        fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+
+        if (window_width > 767 && fixed_plugin_open == 'Dashboard') {
+          if ($('.fixed-plugin .dropdown').hasClass('show-dropdown')) {
+            $('.fixed-plugin .dropdown').addClass('open');
+          }
+
+        }
+
+        $('.fixed-plugin a').click(function(event) {
+          // Alex if we click on switch, stop propagation of the event, so the dropdown will not be hide, otherwise we set the  section active
+          if ($(this).hasClass('switch-trigger')) {
+            if (event.stopPropagation) {
+              event.stopPropagation();
+            } else if (window.event) {
+              window.event.cancelBubble = true;
+            }
+          }
+        });
+
+        $('.fixed-plugin .active-color span').click(function() {
+          $full_page_background = $('.full-page-background');
+
+          $(this).siblings().removeClass('active');
+          $(this).addClass('active');
+
+          var new_color = $(this).data('color');
+
+          if ($sidebar.length != 0) {
+            $sidebar.attr('data-color', new_color);
+          }
+
+          if ($full_page.length != 0) {
+            $full_page.attr('filter-color', new_color);
+          }
+
+          if ($sidebar_responsive.length != 0) {
+            $sidebar_responsive.attr('data-color', new_color);
+          }
+        });
+
+        $('.fixed-plugin .background-color .badge').click(function() {
+          $(this).siblings().removeClass('active');
+          $(this).addClass('active');
+
+          var new_color = $(this).data('background-color');
+
+          if ($sidebar.length != 0) {
+            $sidebar.attr('data-background-color', new_color);
+          }
+        });
+
+        $('.fixed-plugin .img-holder').click(function() {
+          $full_page_background = $('.full-page-background');
+
+          $(this).parent('li').siblings().removeClass('active');
+          $(this).parent('li').addClass('active');
+
+
+          var new_image = $(this).find("img").attr('src');
+
+          if ($sidebar_img_container.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
+            $sidebar_img_container.fadeOut('fast', function() {
+              $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
+              $sidebar_img_container.fadeIn('fast');
+            });
+          }
+
+          if ($full_page_background.length != 0 && $('.switch-sidebar-image input:checked').length != 0) {
+            var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
+
+            $full_page_background.fadeOut('fast', function() {
+              $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
+              $full_page_background.fadeIn('fast');
+            });
+          }
+
+          if ($('.switch-sidebar-image input:checked').length == 0) {
+            var new_image = $('.fixed-plugin li.active .img-holder').find("img").attr('src');
+            var new_image_full_page = $('.fixed-plugin li.active .img-holder').find('img').data('src');
+
+            $sidebar_img_container.css('background-image', 'url("' + new_image + '")');
+            $full_page_background.css('background-image', 'url("' + new_image_full_page + '")');
+          }
+
+          if ($sidebar_responsive.length != 0) {
+            $sidebar_responsive.css('background-image', 'url("' + new_image + '")');
+          }
+        });
+
+        $('.switch-sidebar-image input').change(function() {
+          $full_page_background = $('.full-page-background');
+
+          $input = $(this);
+
+          if ($input.is(':checked')) {
+            if ($sidebar_img_container.length != 0) {
+              $sidebar_img_container.fadeIn('fast');
+              $sidebar.attr('data-image', '#');
+            }
+
+            if ($full_page_background.length != 0) {
+              $full_page_background.fadeIn('fast');
+              $full_page.attr('data-image', '#');
+            }
+
+            background_image = true;
+          } else {
+            if ($sidebar_img_container.length != 0) {
+              $sidebar.removeAttr('data-image');
+              $sidebar_img_container.fadeOut('fast');
+            }
+
+            if ($full_page_background.length != 0) {
+              $full_page.removeAttr('data-image', '#');
+              $full_page_background.fadeOut('fast');
+            }
+
+            background_image = false;
+          }
+        });
+
+        $('.switch-sidebar-mini input').change(function() {
+          $body = $('body');
+
+          $input = $(this);
+
+          if (md.misc.sidebar_mini_active == true) {
+            $('body').removeClass('sidebar-mini');
+            md.misc.sidebar_mini_active = false;
+
+            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar();
+
+          } else {
+
+            $('.sidebar .sidebar-wrapper, .main-panel').perfectScrollbar('destroy');
+
+            setTimeout(function() {
+              $('body').addClass('sidebar-mini');
+
+              md.misc.sidebar_mini_active = true;
+            }, 300);
+          }
+
+          // we simulate the window Resize so the charts will get updated in realtime.
+          var simulateWindowResize = setInterval(function() {
+            window.dispatchEvent(new Event('resize'));
+          }, 180);
+
+          // we stop the simulation of Window Resize after the animations are completed
+          setTimeout(function() {
+            clearInterval(simulateWindowResize);
+          }, 1000);
+
+        });
+      });
+    });
+  </script>
+  <script>
+    $(document).ready(function() {
+      //init DateTimePickers
+      md.initFormExtendedDatetimepickers();
+    });
+  </script>
+</body>
+</html>
+
